@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+<!--<RelativeLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".MainActivity">-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Air Tags"
+        android:textSize="42sp"
+        android:textAlignment="center"
+        android:id="@+id/title"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:orientation="horizontal"
+        android:id="@+id/button_layout">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Turn ON"
+            android:onClick="turnOnBluetooth"
+            android:layout_weight="1"
+            android:id="@+id/switch_bt" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Search for devices"
+            android:layout_weight="1"
+            android:onClick="listDevices"
+            android:id="@+id/get_paired_devices" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:id="@+id/list_view_parent"
+        android:layout_below="@id/button_layout">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollY="@dimen/cardview_default_radius"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/listView"
+            android:choiceMode="singleChoice"
+            android:listSelector="#666666"
+            android:layout_below="@id/button_layout" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/edit_text_parent"
+        android:visibility="invisible"
+        android:layout_below="@id/list_view_parent">
+        <EditText
+            android:layout_width="216dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:id="@+id/edit_text"
+            android:hint="Enter input stream"
+            android:layout_below="@id/list_view_parent"/>
+        <Button
+            android:layout_width="8dp"
+            android:layout_margin="16dp"
+            android:text="send"
+            android:onClick="sendTextToDevice"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+<!--</RelativeLayout>-->
+</RelativeLayout>
