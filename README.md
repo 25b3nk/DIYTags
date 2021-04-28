@@ -1,5 +1,10 @@
 # DIY Tags
 
+## Design and documentation
+
+Everything can be currently found in this document: [google docs link](https://docs.google.com/document/d/1Ppr09-gekl5JMUxhiXsnFstjVjhbimueqNX8HMSm2II/edit?usp=sharing)
+
+
 ## Current status
 
 1. Currently turns on bluetooth.
