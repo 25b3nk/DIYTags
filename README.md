@@ -26,6 +26,9 @@ Everything can be currently found in this document: [google docs link](https://d
 - [x] Need to run input stream loop along with output stream.
 - [x] Make the connection in background using `AsyncTask` or similar.
 - [ ] Add feature to pair device from app.
+- [ ] Receive data from arduino.
+- [ ] Store data of `tag` and location in DB.
+- [ ] Show the `tag` location on map.
 - [ ] Remove unnecessary code.
 - [ ] Add docstrings.
 - [ ] Move the documentation from google docs to wiki ? (Maybe later)
