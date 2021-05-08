@@ -5,6 +5,13 @@
 Everything can be currently found in this document: [google docs link](https://docs.google.com/document/d/1Ppr09-gekl5JMUxhiXsnFstjVjhbimueqNX8HMSm2II/edit?usp=sharing)
 
 
+## Setup
+
+### Arduino
+
+1. `Tx` of __HC-05__ connected to `Rx` of __Arduino__.
+
+
 ## Current status
 
 1. Currently turns on bluetooth.
@@ -15,10 +22,13 @@ Everything can be currently found in this document: [google docs link](https://d
 
 ## To-Do
 
-1. Need to make it work with Tx from arduino connected.
-1. Need to run input stream loop along with output stream.
-1. Make the connection in background using `AsyncTask` or similar.
-1. Add feature to pair device from app.
+- [x] Need to make it work with `Tx` from arduino connected.
+- [x] Need to run input stream loop along with output stream.
+- [x] Make the connection in background using `AsyncTask` or similar.
+- [ ] Add feature to pair device from app.
+- [ ] Remove unnecessary code.
+- [ ] Add docstrings.
+- [ ] Move the documentation from google docs to wiki ? (Maybe later)
 
 
 ## References
@@ -27,3 +37,5 @@ Everything can be currently found in this document: [google docs link](https://d
 1. https://developer.android.com/guide/topics/connectivity/bluetooth
 1. https://stackoverflow.com/a/22899728/5258060
 1. https://stackoverflow.com/questions/22899475/android-sample-bluetooth-code-to-send-a-simple-string-via-bluetooth
+1. https://stackoverflow.com/a/18480297/5258060
+1. [Changing UI in non-UI thread by calling a UI thread](https://stackoverflow.com/a/47536058/5258060)

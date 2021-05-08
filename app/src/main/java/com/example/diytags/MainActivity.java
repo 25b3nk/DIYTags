@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelUuid;
 import android.util.Log;
@@ -35,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
     private OutputStream mOutputStream;
     EditText mEditText;
     LinearLayout mEditTextParent;
+    private BluetoothSocket mSocket = null;
+    private BluetoothOperationThread bluetoothOperationThread = null;
+
+    private int CURR_STATE = 0;
+
+    // Defining states
+    private final int NOT_CONNECTED = 0;
+    private final int CONNECTING = 1;
+    private final int CONNECTED = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,23 +95,23 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("List view", "Clicked " + list.get(position));
                 Log.d("List view", "Position " + position);
                 mBtDevice = (BluetoothDevice) pairedDevices.toArray()[position];
-                try {
-                    connectToDevice(mBtDevice);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("connectToDevice", e.toString());
-                    Toast.makeText(getApplicationContext(), "Error while connecting to " + list.get(position),Toast.LENGTH_SHORT).show();
-                }
+                ConnectThread connectThread = new ConnectThread(mBtDevice, list.get(position).toString());
+                connectThread.start();
+//                connectToDevice(mBtDevice);
             }
         });
     }
-    public void connectToDevice(BluetoothDevice btDevice) throws IOException {
-        ParcelUuid[] uuidItems = btDevice.getUuids();
-        BluetoothSocket socket = btDevice.createRfcommSocketToServiceRecord(uuidItems[0].getUuid());
-        socket.connect();
-        mOutputStream = socket.getOutputStream();
-        mInStream = socket.getInputStream();
-        mEditTextParent.setVisibility(View.VISIBLE);
+    public void connectToDevice(BluetoothDevice btDevice) {
+        try {
+            ParcelUuid[] uuidItems = btDevice.getUuids();
+            BluetoothSocket socket = btDevice.createRfcommSocketToServiceRecord(uuidItems[0].getUuid());
+            socket.connect();
+            mOutputStream = socket.getOutputStream();
+            mInStream = socket.getInputStream();
+            mEditTextParent.setVisibility(View.VISIBLE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendTextToDevice(View v) throws IOException {
@@ -110,11 +120,113 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deviceWrite(String s) throws IOException {
-        try {
-            Log.v("Sending to device", mOutputStream.toString());
-            mOutputStream.write(s.getBytes());
-        } catch (IOException e) {
-            Log.e("Sending to device", e.toString());
+        Log.v("Sending to device", "Sending message: " + s);
+//            mOutputStream.write(s.getBytes());
+        if (bluetoothOperationThread != null) {
+            bluetoothOperationThread.write(s);
+        }
+        else {
+            Log.v("Sending to device", "Not sending as connection not established");
+            Toast.makeText(getApplicationContext(), "Not connected, please connect first", Toast.LENGTH_LONG).show();
         }
     }
+
+    private class ConnectThread extends Thread {
+        /**
+         * This class defines thread that should run to connect to a bluetooth device
+         */
+        private BluetoothSocket mmSocket;
+        private BluetoothDevice mmDevice;
+        private String mmName;
+
+        public ConnectThread(BluetoothDevice device, String deviceName) {
+            mmDevice = device;
+            mmName = deviceName;
+            ParcelUuid[] uuidItems = mmDevice.getUuids();
+            try {
+                mmSocket = device.createRfcommSocketToServiceRecord(uuidItems[0].getUuid());
+            }
+            catch (IOException e) {
+                mmSocket = null;
+            }
+        }
+
+        public void run() {
+            BA.cancelDiscovery();
+            try {
+                Log.v("Connecting to BT", "Trying to connect to BT");
+                CURR_STATE = CONNECTING;
+                mmSocket.connect();
+                mSocket = mmSocket;
+                mOutputStream = mmSocket.getOutputStream();
+                mInStream = mmSocket.getInputStream();
+                CURR_STATE = CONNECTED;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Connected to " + mmName, Toast.LENGTH_LONG).show();
+                        mEditTextParent.setVisibility(View.VISIBLE);
+                    }
+                });
+            } catch (IOException e) {
+                Log.v("Connecting to BT", "Error while trying to connect to " + mmName);
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        final Toast toast = Toast.makeText(getApplicationContext(), "Error while connecting to " + mmName, Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+                try {
+                    mmSocket.close();
+                } catch (IOException closeException) { }
+                e.printStackTrace();
+                return;
+            }
+            bluetoothOperationThread = new BluetoothOperationThread(mmSocket);
+            bluetoothOperationThread.start();
+        }
+
+    }
+
+    private class BluetoothOperationThread extends Thread {
+        private BluetoothSocket mmSocket;
+        private InputStream mmInputStream;
+        private OutputStream mmOutputStream;
+
+        public BluetoothOperationThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            mmInputStream = null;
+            mmOutputStream = null;
+            try {
+                mmInputStream = mmSocket.getInputStream();
+                mmOutputStream = mmSocket.getOutputStream();
+                mOutputStream = mmOutputStream;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void run() {
+            byte[] buffer = new byte[2];
+            int bytes;
+
+            while (true) {
+                try {
+                    bytes = mmInputStream.read(buffer);
+                } catch (IOException e) {
+                    break;
+                }
+            }
+        }
+
+        public void write(String message) {
+            try {
+                Log.v("BluetothOperationThread", "Sending " + message + " to " + mmOutputStream.toString());
+                mmOutputStream.write(message.getBytes());
+            } catch (IOException e) {
+                Log.e("Sending to device", e.toString());
+            }
+        }
+
+    }
+
 }
