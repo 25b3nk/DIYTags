@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout mEditTextParent;
     private BluetoothSocket mSocket = null;
     private BluetoothOperationThread bluetoothOperationThread = null;
+    private final int BT_ID_LEN = 7;
 
     private int CURR_STATE = 0;
 
@@ -158,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
                 CURR_STATE = CONNECTING;
                 mmSocket.connect();
                 mSocket = mmSocket;
-                mOutputStream = mmSocket.getOutputStream();
-                mInStream = mmSocket.getInputStream();
+//                mOutputStream = mmSocket.getOutputStream();
+//                mInStream = mmSocket.getInputStream();
                 CURR_STATE = CONNECTED;
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -206,13 +207,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void run() {
-            byte[] buffer = new byte[2];
-            int bytes;
+            int byteCount;
+            String bluetoothID = null;
 
             while (true) {
                 try {
-                    bytes = mmInputStream.read(buffer);
-                } catch (IOException e) {
+                    byteCount = mmInputStream.available();
+                    if (byteCount >= BT_ID_LEN) {
+//                        Log.v("BluetoothRead", "Number of bytes: " + byteCount);
+                        byte[] buffer = new byte[byteCount];
+                        byteCount = mmInputStream.read(buffer);
+                        final String bufferString = new String(buffer, "UTF-8");
+                        String stringTokens[] = bufferString.split("\n");
+                        for (String s: stringTokens){
+                            if (s.length() == BT_ID_LEN) {
+                                bluetoothID = s;
+                            }
+                        }
+//                        Log.v("BluetoothRead", "Input read: " + bufferString);
+                        Log.v("BluetoothRead", "bluetoothID: #" + bluetoothID + "#");
+                    }
+                    Thread.sleep(10);
+                } catch (IOException | InterruptedException e) {
                     break;
                 }
             }

@@ -10,6 +10,7 @@ Everything can be currently found in this document: [google docs link](https://d
 ### Arduino
 
 1. `Tx` of __HC-05__ connected to `Rx` of __Arduino__.
+1. `Rx` of __HC-05__ connected to `Tx` of __Arduino__.
 
 
 ## Current status
@@ -25,8 +26,9 @@ Everything can be currently found in this document: [google docs link](https://d
 - [x] Need to make it work with `Tx` from arduino connected.
 - [x] Need to run input stream loop along with output stream.
 - [x] Make the connection in background using `AsyncTask` or similar.
+- [ ] Stable and robust bluetooth connection, and making sure no duplicate threads are created.
 - [ ] Add feature to pair device from app.
-- [ ] Receive data from arduino.
+- [x] Receive data from arduino.
 - [ ] Store data of `tag` and location in DB.
 - [ ] Show the `tag` location on map.
 - [ ] Remove unnecessary code.
@@ -42,3 +44,4 @@ Everything can be currently found in this document: [google docs link](https://d
 1. https://stackoverflow.com/questions/22899475/android-sample-bluetooth-code-to-send-a-simple-string-via-bluetooth
 1. https://stackoverflow.com/a/18480297/5258060
 1. [Changing UI in non-UI thread by calling a UI thread](https://stackoverflow.com/a/47536058/5258060)
+1. https://www.electronics-lab.com/get-sensor-data-arduino-smartphone-via-bluetooth/
