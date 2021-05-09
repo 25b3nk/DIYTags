@@ -36,6 +36,11 @@ Everything can be currently found in this document: [google docs link](https://d
 - [ ] Move the documentation from google docs to wiki ? (Maybe later)
 
 
+## Arduino code reference
+
+[Github repo for arduino code](https://github.com/25b3nk/arduino-projects/tree/master/bluetooth/diy_tags)
+
+
 ## References
 
 1. https://www.tutorialspoint.com/android/android_bluetooth.htm
