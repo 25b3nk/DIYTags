@@ -75,7 +75,7 @@ Everything can be currently found in this document: [google docs link](https://d
 1. https://stackoverflow.com/a/22899728/5258060
 1. https://stackoverflow.com/questions/22899475/android-sample-bluetooth-code-to-send-a-simple-string-via-bluetooth
 1. https://stackoverflow.com/a/18480297/5258060
-1. [Changing UI in non-UI thread by calling a UI thread](https://stackoverflow.com/a/47536058/5258060)
+1. [`Changing UI in non-UI thread by calling a UI thread`](https://stackoverflow.com/a/47536058/5258060)
 1. https://www.electronics-lab.com/get-sensor-data-arduino-smartphone-via-bluetooth/
-1. [Using Open Street Map API](https://github.com/osmdroid/osmdroid/wiki)
-1. [How to use the osmdroid library (Kotlin)](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library-(Kotlin))
+1. [`Using Open Street Map API`](https://github.com/osmdroid/osmdroid/wiki)
+1. [`How to use the osmdroid library (Kotlin)`](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library-(Kotlin))
