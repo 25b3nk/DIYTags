@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        this.overridePendingTransition(R.anim.secondary_to_main,
+//                R.anim.secondary_to_main);
         setContentView(R.layout.activity_main);
-
         BA = BluetoothAdapter.getDefaultAdapter();
         lv = (ListView)findViewById(R.id.listView);
         mGetPairedDevicesButton = (Button) findViewById(R.id.get_paired_devices);
@@ -118,6 +119,12 @@ public class MainActivity extends AppCompatActivity {
     public void sendTextToDevice(View v) throws IOException {
         String message = mEditText.getText().toString();
         deviceWrite(message);
+    }
+
+    public void openMapActivity(View v) {
+        Log.v("MainActivity", "Opening Map Activity");
+        Intent openMapActivityIntent = new Intent(this, MapActivity.class);
+        startActivity(openMapActivityIntent);
     }
 
     public void deviceWrite(String s) throws IOException {
@@ -236,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void write(String message) {
             try {
-                Log.v("BluetothOperationThread", "Sending " + message + " to " + mmOutputStream.toString());
+                Log.v("BTOperationThread", "Sending " + message + " to " + mmOutputStream.toString());
                 mmOutputStream.write(message.getBytes());
             } catch (IOException e) {
                 Log.e("Sending to device", e.toString());

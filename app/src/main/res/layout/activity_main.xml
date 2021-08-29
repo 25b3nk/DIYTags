@@ -81,5 +81,13 @@
             android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
-<!--</RelativeLayout>-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Open Maps"
+        android:layout_alignParentBottom="true"
+        android:onClick="openMapActivity"
+        android:id="@+id/open_maps_button" />
 </RelativeLayout>
