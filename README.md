@@ -30,11 +30,15 @@ Everything can be currently found in this document: [google docs link](https://d
 - [x] Make the connection in background using `AsyncTask` or similar.
 - [ ] Add feature to pair device from app.
 - [x] Receive data from arduino.
+- [ ] BLE device must be emitting public key at all times. This public key will be shared to DB & will put the device on map.
+- [ ] BLE device must share private key only when paired to a device.
 
 ### DB
 
 - [ ] Store data of `tag` and location in DB.
 - [ ] Create a DB server in my PC and use it as cloud server to store/fetch data.
+- [ ] For AirTag type of application, we need to show only paired devices on the map.
+- [ ] For public transport application, all the devices can be shown on the map.
 
 ### Map
 
